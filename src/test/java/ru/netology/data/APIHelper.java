@@ -26,7 +26,7 @@ public class APIHelper {
                 .spec(requestSpec)
                 .body(authInfo)
                 .when()
-                .post("/api/auht")
+                .post("/api/auth")
                 .then()
                 .statusCode(statusCode);
     }
@@ -47,7 +47,7 @@ public class APIHelper {
     public static Map<String, Integer> sendQueryToGetCardBalances(String token, Integer statusCode) {
         APICardInfo[] cardsInfo = given()
                 .spec(requestSpec)
-                .header("Authorization", "Bearer" + token)
+                .header("Authorization", "Bearer " + token)
                 .when()
                 .get("/api/cards")
                 .then().log().all()

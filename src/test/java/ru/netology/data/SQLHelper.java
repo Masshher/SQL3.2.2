@@ -23,11 +23,19 @@ public class SQLHelper {
 
     @SneakyThrows
     public static DataHelper.VerificationCode getVerificationCode() {
-        var codeSQL = "SELECT code FROM auth_codes ORDER BY created DESC LIMIT 1";
+        var codeSQL = "SELECT * FROM auth_codes ORDER BY created DESC LIMIT 1";
         var conn = getConn();
         var result = runner.query(conn, codeSQL, new BeanHandler<>(SQLAuthCode.class));
         return new DataHelper.VerificationCode(result.getCode());
     }
+
+//    @SneakyThrows
+//    public static DataHelper.VerificationCode getVerificationCode() {
+//        var codeSQL = "SELECT code FROM auth_codes ORDER BY created DESC LIMIT 1";
+//        var conn = getConn();
+//        var code = runner.query(conn, codeSQL, new ScalarHandler<String>());
+//        return new DataHelper.VerificationCode(code);
+//    }
 
     @Data
     @NoArgsConstructor
@@ -36,5 +44,14 @@ public class SQLHelper {
         private String user_id;
         private String code;
         private String created;
+    }
+
+    @SneakyThrows
+    public static void cleanDatabase() {
+        var connection = getConn();
+        runner.execute(connection, "DELETE FROM auth_codes");
+        runner.execute(connection, "DELETE FROM card_transactions");
+        runner.execute(connection, "DELETE FROM cards");
+        runner.execute(connection, "DELETE FROM users");
     }
 }

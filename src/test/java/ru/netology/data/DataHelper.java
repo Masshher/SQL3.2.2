@@ -1,7 +1,9 @@
 package ru.netology.data;
 
+import com.github.javafaker.Faker;
 import lombok.Value;
 
+import java.util.Locale;
 import java.util.Random;
 
 public class DataHelper {
@@ -23,6 +25,22 @@ public class DataHelper {
     public static int generateValidAmount(int balance) {
         return new Random().nextInt(balance)+1;
     }
+
+    public static AuthInfo generateRandomUser() {
+        return new AuthInfo(generateRandomLogin(), generateRandomPassword());
+    }
+
+
+    public static String generateRandomLogin() {
+        Faker faker = new Faker(new Locale("en"));
+        return faker.name().username();
+    }
+
+    public static String generateRandomPassword() {
+        Faker faker = new Faker(new Locale("en"));
+        return faker.internet().password();
+    }
+
 
     @Value
     public static class AuthInfo {
